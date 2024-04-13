@@ -99,8 +99,8 @@ namespace DecryptCocos2dAsset {
             bytes = bytes.Skip(8).ToArray();
             Decrypt(ref bytes, bytes.Length);
 
-
-            bytes = bytes.Skip(4).ToArray();
+            var len = BitConverter.ToInt32(bytes, 0);
+            bytes = bytes.Skip(4).Take(len).ToArray();
 
             if (header.compressed)
                 bytes = ZlibStream.UncompressBuffer(bytes);
